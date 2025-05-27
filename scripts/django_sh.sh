@@ -3,4 +3,4 @@
 python manage.py collectstatic --noinput
 python manage.py makemigrations
 python manage.py migrate
-daphne async_django.asgi:application
+daphne -b 0.0.0.0 -p 8000 project.asgi:application
