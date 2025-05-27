@@ -8,7 +8,7 @@ services:
       - 8000
     env_file: ".env"
     restart: always
-    entrypoint: ["./scripts/django_sh"]
+    entrypoint: ["sh", "-c", "./scripts/django_sh"]
     depends_on:
       - db
 
