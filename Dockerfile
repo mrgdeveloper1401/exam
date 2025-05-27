@@ -4,8 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN chmod +x scripts/* && \
-    adduser -D -H mohammad && \
+RUN adduser -D -H mohammad && \
     chown -R mohammad:mohammad /app
 
 USER mohammad
