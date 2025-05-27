@@ -1,0 +1,1619 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /auth/login/:
+    post:
+      operationId: auth_login_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLogin'
+          description: ''
+  /auth/profile/:
+    get:
+      operationId: auth_profile_list
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfile'
+          description: ''
+    post:
+      operationId: auth_profile_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+  /auth/profile/{id}/:
+    get:
+      operationId: auth_profile_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    put:
+      operationId: auth_profile_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    patch:
+      operationId: auth_profile_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+    delete:
+      operationId: auth_profile_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /auth/signup/:
+    post:
+      operationId: auth_signup_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
+  /product/categories/:
+    get:
+      operationId: product_categories_list
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryBlog'
+          description: ''
+    post:
+      operationId: product_categories_create
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCategory'
+          description: ''
+  /product/categories/{id}/:
+    get:
+      operationId: product_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this دسته‌بندی.
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryBlog'
+          description: ''
+    put:
+      operationId: product_categories_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this دسته‌بندی.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCategory'
+          description: ''
+    patch:
+      operationId: product_categories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this دسته‌بندی.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCreateCategory'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCategory'
+          description: ''
+    delete:
+      operationId: product_categories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this دسته‌بندی.
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /product/orders/:
+    get:
+      operationId: product_orders_list
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+          description: ''
+    post:
+      operationId: product_orders_create
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /product/orders/{order_pk}/orders/{order_pk}/items/:
+    get:
+      operationId: product_orders_orders_items_list
+      parameters:
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderItem'
+          description: ''
+    post:
+      operationId: product_orders_orders_items_create
+      parameters:
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+  /product/orders/{order_pk}/orders/{order_pk}/items/{id}/:
+    get:
+      operationId: product_orders_orders_items_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    put:
+      operationId: product_orders_orders_items_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    patch:
+      operationId: product_orders_orders_items_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderItem'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+          description: ''
+    delete:
+      operationId: product_orders_orders_items_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: order_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /product/orders/{id}/:
+    get:
+      operationId: product_orders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    put:
+      operationId: product_orders_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    patch:
+      operationId: product_orders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    delete:
+      operationId: product_orders_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /product/products/:
+    get:
+      operationId: product_products_list
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+          description: ''
+    post:
+      operationId: product_products_create
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+  /product/products/{id}/:
+    get:
+      operationId: product_products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this محصول.
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    put:
+      operationId: product_products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this محصول.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Product'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    patch:
+      operationId: product_products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this محصول.
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProduct'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: ''
+    delete:
+      operationId: product_products_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this محصول.
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /product/products/{product_pk}/products/{product_pk}/images/:
+    get:
+      operationId: product_products_products_images_list
+      parameters:
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductImage'
+          description: ''
+    post:
+      operationId: product_products_products_images_create
+      parameters:
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductImage'
+          description: ''
+  /product/products/{product_pk}/products/{product_pk}/images/{id}/:
+    get:
+      operationId: product_products_products_images_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this تصویر محصول.
+        required: true
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductImage'
+          description: ''
+    put:
+      operationId: product_products_products_images_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this تصویر محصول.
+        required: true
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductImage'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductImage'
+          description: ''
+    patch:
+      operationId: product_products_products_images_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this تصویر محصول.
+        required: true
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProductImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProductImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProductImage'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductImage'
+          description: ''
+    delete:
+      operationId: product_products_products_images_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this تصویر محصول.
+        required: true
+      - in: path
+        name: product_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - product
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    CategoryBlog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        path:
+          type: string
+          maxLength: 255
+        depth:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        numchild:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        name:
+          type: string
+          title: نام دسته‌بندی
+          maxLength: 100
+        slug:
+          type: string
+          title: اسلاگ
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: تصویر
+        is_active:
+          type: boolean
+          title: فعال
+      required:
+      - created_at
+      - depth
+      - id
+      - name
+      - path
+      - slug
+      - updated_at
+    CreateCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          title: نام دسته‌بندی
+          maxLength: 100
+        parent:
+          type: integer
+      required:
+      - name
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          title: وضعیت
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          title: مبلغ کل
+        shipping_address:
+          type: string
+          title: آدرس ارسال
+        postal_code:
+          type: string
+          title: کد پستی
+          maxLength: 10
+        phone_number:
+          type: string
+          title: شماره تماس
+          maxLength: 15
+        user:
+          type: integer
+          title: کاربر
+        city:
+          type: integer
+          title: شهر
+      required:
+      - city
+      - created_at
+      - id
+      - phone_number
+      - postal_code
+      - shipping_address
+      - total_price
+      - updated_at
+      - user
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        quantity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: تعداد
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: قیمت واحد
+        order:
+          type: integer
+          title: سفارش
+        product:
+          type: integer
+          title: محصول
+      required:
+      - created_at
+      - id
+      - order
+      - price
+      - product
+      - quantity
+      - updated_at
+    PatchedCreateCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          title: نام دسته‌بندی
+          maxLength: 100
+        parent:
+          type: integer
+    PatchedOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          title: وضعیت
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          title: مبلغ کل
+        shipping_address:
+          type: string
+          title: آدرس ارسال
+        postal_code:
+          type: string
+          title: کد پستی
+          maxLength: 10
+        phone_number:
+          type: string
+          title: شماره تماس
+          maxLength: 15
+        user:
+          type: integer
+          title: کاربر
+        city:
+          type: integer
+          title: شهر
+    PatchedOrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        quantity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: تعداد
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: قیمت واحد
+        order:
+          type: integer
+          title: سفارش
+        product:
+          type: integer
+          title: محصول
+    PatchedProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        name:
+          type: string
+          title: نام محصول
+          maxLength: 200
+        slug:
+          type: string
+          title: اسلاگ
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          title: توضیحات
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: قیمت
+        discount_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+          title: قیمت با تخفیف
+        stock:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: موجودی
+        is_active:
+          type: boolean
+          title: فعال
+        category:
+          type: integer
+          title: دسته‌بندی
+    PatchedProductImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        image:
+          type: string
+          format: uri
+          title: تصویر
+        is_main:
+          type: boolean
+          title: تصویر اصلی
+        product:
+          type: integer
+    PatchedUserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        nation_code:
+          type: string
+          maxLength: 11
+        is_staff:
+          type: boolean
+          readOnly: true
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        name:
+          type: string
+          title: نام محصول
+          maxLength: 200
+        slug:
+          type: string
+          title: اسلاگ
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          title: توضیحات
+        price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: قیمت
+        discount_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+          title: قیمت با تخفیف
+        stock:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: موجودی
+        is_active:
+          type: boolean
+          title: فعال
+        category:
+          type: integer
+          title: دسته‌بندی
+      required:
+      - category
+      - created_at
+      - description
+      - id
+      - name
+      - price
+      - slug
+      - stock
+      - updated_at
+    ProductImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ ایجاد
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: تاریخ بروزرسانی
+        image:
+          type: string
+          format: uri
+          title: تصویر
+        is_main:
+          type: boolean
+          title: تصویر اصلی
+        product:
+          type: integer
+      required:
+      - created_at
+      - id
+      - image
+      - product
+      - updated_at
+    StatusEnum:
+      enum:
+      - pending
+      - paid
+      - shipped
+      - delivered
+      - cancelled
+      type: string
+      description: |-
+        * `pending` - در انتظار پرداخت
+        * `paid` - پرداخت شده
+        * `shipped` - ارسال شده
+        * `delivered` - تحویل داده شده
+        * `cancelled` - لغو شده
+    UserLogin:
+      type: object
+      properties:
+        phone_number:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - phone_number
+      - token
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        nation_code:
+          type: string
+          maxLength: 11
+        is_staff:
+          type: boolean
+          readOnly: true
+      required:
+      - id
+      - is_staff
+    UserRegister:
+      type: object
+      properties:
+        phone_number:
+          type: string
+          pattern: ^\d{9,15}
+          maxLength: 15
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        full_name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - phone_number
+      - token
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
