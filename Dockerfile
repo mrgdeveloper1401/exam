@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN adduser -D -H mohammad && \
-    chown -R mohammad:mohammad /app
+    chown -R mohammad:mohammad /app && \
+    pip install psycopg2-binary
 
 USER mohammad
