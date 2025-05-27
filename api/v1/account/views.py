@@ -20,9 +20,13 @@ class UserLoginView(views.APIView):
 
         # get token after validated data
         token = serializer.validated_data['token']
+        role = serializer.validated_data['tole']
+        is_staff = serializer.validated_data['is_staff']
         return response.Response(
             {
                 'token': token,
+                "is_staff": is_staff,
+                "role": role
             }
         )
 

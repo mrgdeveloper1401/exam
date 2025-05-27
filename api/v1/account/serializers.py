@@ -74,6 +74,8 @@ class UserLoginSerializer(serializers.Serializer):
         #     )
         token = get_tokens_for_user(user)
         attrs['token'] = token
+        attrs['tole'] = user.user_type
+        attrs['is_staff'] = user.is_staff
         return attrs
 
 

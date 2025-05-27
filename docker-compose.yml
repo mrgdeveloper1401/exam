@@ -1,5 +1,5 @@
 services:
-  app:
+  django:
     container_name: django
     build: .
     ports:
@@ -29,26 +29,28 @@ services:
     container_name: nginx
     command: ["nginx", "-g", "daemon off;"]
     image: docker.arvancloud.ir/nginx:1.27.5-alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx
     ports:
       - "80:80"
       - "443:443"
     depends_on:
-      - app
+      - django
 
-  master:
-    container_name: locust_master
-    image: docker.arvancloud.ir/locustio/locust:2.8.5
-    ports:
-      - "8089:8089"
-    volumes:
-      - ./locust_django:/mnt/locust
-    command: -f /mnt/locust/locust.py --master -H http://app:8000
-
-  worker:
-    image: docker.arvancloud.ir/locustio/locust:2.8.5
-    volumes:
-      - ./locust_django:/mnt/locust
-    command: -f /mnt/locust/locust.py -- worker -master-host master
+#  master:
+#    container_name: locust_master
+#    image: docker.arvancloud.ir/locustio/locust:2.8.5
+#    ports:
+#      - "8089:8089"
+#    volumes:
+#      - ./locust_django:/mnt/locust
+#    command: -f /mnt/locust/locust.py --master -H http://app:8000
+#
+#  worker:
+#    image: docker.arvancloud.ir/locustio/locust:2.8.5
+#    volumes:
+#      - ./locust_django:/mnt/locust
+#    command: -f /mnt/locust/locust.py -- worker -master-host master
 
 
 volumes:

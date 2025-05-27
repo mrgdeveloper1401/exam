@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, exceptions
 
 from . import serializers
 from exam import models
@@ -29,7 +29,8 @@ class ExamAttemptViewSet(viewsets.ModelViewSet):
         return models.ExamAttempt.objects.defer(
         "is_deleted", "deleted_at"
     ).filter(
-            exam_id=self.kwargs["exam_id"],
+            exam_id=self.kwargs["exam_pk"],
+            user_id=self.request.user.id,
         )
 
     def get_permissions(self):
@@ -60,3 +61,22 @@ class QuestionViewSet(viewsets.ModelViewSet):
         ).defer(
             "is_deleted", "deleted_at"
         )
+
+    def check_exam_attempt_permission(self, request):
+        """متد کمکی برای بررسی مجوزهای ExamAttempt"""
+        get_exam_attempt = models.ExamAttempt.objects.filter(
+            user_id=request.user.id,
+            exam_id=self.kwargs.get("exam_pk"),
+            ip_address=request.META.get("REMOTE_ADDR", "X_FORWARDED_FOR"),
+        ).select_related("exam").only("exam__title")
+
+        if not get_exam_attempt.exists():
+            raise exceptions.PermissionDenied()
+
+    def list(self, request, *args, **kwargs):
+        self.check_exam_attempt_permission(request)
+        return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        self.check_exam_attempt_permission(request)
+        return super().retrieve(request, *args, **kwargs)

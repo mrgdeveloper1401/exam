@@ -157,7 +157,6 @@ class ExamAttempt(ModifyMixin, SoftDeleteMixin):
     class Meta:
         db_table = "exam_attempt"
         ordering = ('-start_time',)
-        unique_together = ('user', 'exam')
 
     def calculate_score(self):
         # محاسبه نمره کاربر
